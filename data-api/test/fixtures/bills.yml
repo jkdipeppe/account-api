@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  account_id: 1
+  start_date: 2018-07-24
+  end_date: 2018-07-24
+  usage: 1
+  charges: 1.5
+  status: MyString
+
+two:
+  account_id: 1
+  start_date: 2018-07-24
+  end_date: 2018-07-24
+  usage: 1
+  charges: 1.5
+  status: MyString

@@ -7,7 +7,6 @@ Rails.application.routes.draw do
       resources :accounts
       get '/accounts/email/:email', to: 'accounts#find_accounts_by_email', email: /.*/
 
-
       resources :bills
       get '/bills/email/:email', to: 'bills#find_bills_by_email', email: /.*/
       get '/bills/unpaid/:email', to: 'bills#unpaid_bills_by_email', email: /.*/

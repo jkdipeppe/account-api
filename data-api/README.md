@@ -8,7 +8,7 @@ Things you may want to cover:
 * Must provide a valid API token in header to have access to API
 
 * command line example:
-  curl http://localhost:3000/api/v1/users/email/john.johnson@yahoo.com -H 'Authorization: Token token="513351fb668580c8096e026ea951598f"'
+  curl http://localhost:3000/api/v1/users/email/john.johnson@yahoo.com -H 'Authorization: Token token="4a56035be1a06e82df43e3f0f542e297"'
 
 API Endpoints:
 **Find users**

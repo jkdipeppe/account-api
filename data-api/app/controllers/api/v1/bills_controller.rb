@@ -9,22 +9,26 @@ class Api::V1::BillsController < ApplicationController
   end
 
   def find_bills_by_email
-    user_accounts =  User.find_by(email: params[:email]).accounts
-    account_ids = []
-    user_accounts.each do |account|
-      account_ids.push(account.id)
-    end
-    @bills = []
-    Bill.all.each do |bill|
-      if account_ids.include?(bill.account_id)
-        @bills.push(bill)
+    if User.find_by(email: params[:email])
+      user_accounts =  User.find_by(email: params[:email]).accounts
+      account_ids = []
+      user_accounts.each do |account|
+        account_ids.push(account.id)
       end
+      @bills = []
+      Bill.all.each do |bill|
+        if account_ids.include?(bill.account_id)
+          @bills.push(bill)
+        end
+      end
+      render json: @bills
+    else
+      render json: 'Not found'
     end
-    render json: @bills
   end
 
 
-  def unpaid_bills
+  def unpaid_bills #finds all unpaid bills
     @unpaid_bills = []
     Bill.each do |bill|
       if bill.status == 'unpaid'
@@ -34,7 +38,7 @@ class Api::V1::BillsController < ApplicationController
     render json: @unpaid_bills
   end
 
-  def paid_bills
+  def paid_bills #finds all paid bills
     @paid_bills = []
     Bill.each do |bill|
       if bill.status == 'paid'
@@ -45,33 +49,42 @@ class Api::V1::BillsController < ApplicationController
   end
 
   def unpaid_bills_by_email
-    user_accounts =  User.find_by(email: params[:email]).accounts
-    account_ids = []
-    user_accounts.each do |account|
-      account_ids.push(account.id)
-    end
-    @bills = []
-    Bill.all.each do |bill|
-      if account_ids.include?(bill.account_id) && bill.status == 'unpaid'
-        @bills.push(bill)
+
+    if User.find_by(email: params[:email]).accounts
+      user_accounts =  User.find_by(email: params[:email]).accounts
+      account_ids = []
+      user_accounts.each do |account|
+        account_ids.push(account.id)
       end
+      @bills = []
+      Bill.all.each do |bill|
+        if account_ids.include?(bill.account_id) && bill.status == 'unpaid'
+          @bills.push(bill)
+        end
+      end
+      render json: @bills
+    else
+      render json: 'Not found'
     end
-    render json: @bills
   end
 
   def paid_bills_by_email
-    user_accounts =  User.find_by(email: params[:email]).accounts
-    account_ids = []
-    user_accounts.each do |account|
-      account_ids.push(account.id)
-    end
-    @bills = []
-    Bill.all.each do |bill|
-      if account_ids.include?(bill.account_id) && bill.status == 'paid'
-        @bills.push(bill)
+    if User.find_by(email: params[:email]).accounts
+      user_accounts =  User.find_by(email: params[:email]).accounts
+      account_ids = []
+      user_accounts.each do |account|
+        account_ids.push(account.id)
       end
+      @bills = []
+      Bill.all.each do |bill|
+        if account_ids.include?(bill.account_id) && bill.status == 'paid'
+          @bills.push(bill)
+        end
+      end
+      render json: @bills
+    else
+      render json: 'Not found'
     end
-    render json: @bills
   end
 
   def total_charges_by_email

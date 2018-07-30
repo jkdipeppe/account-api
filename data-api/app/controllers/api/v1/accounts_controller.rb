@@ -8,8 +8,12 @@ class Api::V1::AccountsController < ApplicationController
   end
 
   def find_accounts_by_email
-    @user_accounts =  User.find_by(email: params[:email]).accounts
-    render json: @user_accounts
+    if User.find_by(email: params[:email]).accounts
+      @user_accounts =  User.find_by(email: params[:email]).accounts
+      render json: @user_accounts
+    else
+      render json: 'User/Accounts not found'
+    end
   end
 
   def update

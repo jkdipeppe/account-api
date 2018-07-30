@@ -12,6 +12,8 @@ Rails.application.routes.draw do
       get '/bills/unpaid/:email', to: 'bills#unpaid_bills_by_email', email: /.*/
       get '/bills/paid/:email', to: 'bills#paid_bills_by_email', email: /.*/
       get '/bills/totalcharges/:email', to: 'bills#total_charges_by_email', email: /.*/
+      get '/bills/averageusage/:email', to: 'bills#average_usage_by_email', email: /.*/
+      get '/bills/averagecharges/:email', to: 'bills#average_charges_by_email', email: /.*/
 
     end
   end

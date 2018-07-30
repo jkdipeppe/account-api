@@ -2,7 +2,6 @@ class Api::V1::UsersController < ApplicationController
   before_action :restrict_access
 
   def index
-    byebug
     @users = User.all
     render json: @users
   end

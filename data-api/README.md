@@ -1,9 +1,10 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Things to note:
 
-Things you may want to cover:
+* bundle install
+
+* either generate a new API token in a rails console or look up the ApiKey that is created from the seed data
 
 * Must provide a valid API token in header to have access to API
 
@@ -12,17 +13,31 @@ Things you may want to cover:
 
 API Endpoints:
 **Find users**
-  /api/v1/users will show all users
-  /api/v1/users/email/:email will search all users and return only a user with the given email
+  * will show all users
+    /api/v1/users
+
+  * will search all users and return only a user with the given email
+    /api/v1/users/email/:email
 
 **Find Accounts**
-  /accounts/email/:email  will search all users and return the accounts of user with a given email
-
+  * will search all users and return the accounts of user with a given email
+    /api/v1/accounts/email/:email  
 
 **Find Bills**
-  /api/v1/bills?status=unpaid this will return all unpaid bills
-  /api/v1/bills?status=paid this will return all paid bills
+  * this will return only the bills for a user with the given email
+    /api/v1/bills/email/:email
 
-  /api/v1/bills/email/:email this will return only the bills for a user with the given email
-  /api/v1/bills/unpaid/:email this will return all unpaid bills for a specific user with the given email
-  /api/v1/bills/paid/:email this will return all paid bills for a specific user with the given email
+  * this will return all unpaid bills for a specific user with the given email
+    /api/v1/bills/unpaid/:email
+
+  * this will return all paid bills for a specific user with the given email
+    /api/v1/bills/paid/:email
+
+  * this will return the total paid and total unpaid charges associated with a given email as well as the number of 'paid' pay periods
+    /api/v1/bills/totalcharges/:email
+
+  * this will return the average usage for a user with the given email
+    /api/v1/bills/averageusage/:email
+
+  * this will return the average charges, number of charges (pay periods) and sum of charges for a user with the given email
+    /api/v1/bills/averagecharges/:email

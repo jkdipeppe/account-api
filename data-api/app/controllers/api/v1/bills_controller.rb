@@ -91,6 +91,7 @@ class Api::V1::BillsController < ApplicationController
     @total_charges = {}
 
     if User.find_by(email: params[:email])
+      @total_charges['number_of_paid_pay_periods'] = 0
       @total_charges['unpaid_charges'] = 0
       @total_charges['paid_charges'] = 0
       @total_charges['user'] = User.find_by(email: params[:email])
@@ -102,8 +103,10 @@ class Api::V1::BillsController < ApplicationController
       Bill.all.each do |bill|
         if account_ids.include?(bill.account_id) && bill.status == 'unpaid'
           @total_charges['unpaid_charges'] += bill.charges
+
         elsif account_ids.include?(bill.account_id) && bill.status == 'paid'
           @total_charges['paid_charges'] += bill.charges
+          @total_charges['number_of_paid_pay_periods'] += 1
         end
       end
     elsif
@@ -112,6 +115,66 @@ class Api::V1::BillsController < ApplicationController
 
     render json: @total_charges
   end
+
+
+  def average_usage_by_email
+    @average_usage = {}
+
+    if User.find_by(email: params[:email])
+      @average_usage['user'] = User.find_by(email: params[:email])
+      @average_usage['sumOfUsage'] = 0
+      @average_usage['averageUsage'] = 0
+      @average_usage['countOfUsagesInPeriods'] = 0
+
+      user_accounts =  User.find_by(email: params[:email]).accounts
+      account_ids = []
+      user_accounts.each do |account|
+        account_ids.push(account.id)
+      end
+      Bill.all.each do |bill|
+        if account_ids.include?(bill.account_id)
+          @average_usage['sumOfUsage'] += bill.usage
+          @average_usage['countOfUsagesInPeriods'] += 1
+          @average_usage['averageUsage'] = @average_usage['sumOfUsage'] / @average_usage['countOfUsagesInPeriods']
+        end
+      end
+    elsif
+      @average_usage['user'] = 'No such user'
+    end
+
+    render json: @average_usage
+  end
+
+  def average_charges_by_email
+    @average_charges = {}
+
+    if User.find_by(email: params[:email])
+      @average_charges['user'] = User.find_by(email: params[:email])
+      @average_charges['sumOfCharges'] = 0
+      @average_charges['averageCharges'] = 0
+      @average_charges['numberOfCharges'] = 0
+
+      user_accounts =  User.find_by(email: params[:email]).accounts
+      account_ids = []
+      user_accounts.each do |account|
+        account_ids.push(account.id)
+      end
+      Bill.all.each do |bill|
+        if account_ids.include?(bill.account_id)
+          @average_charges['sumOfCharges'] += bill.charges
+          @average_charges['numberOfCharges'] += 1
+          @average_charges['averageCharges'] = @average_charges['sumOfCharges'] / @average_charges['numberOfCharges']
+        end
+      end
+    elsif
+      @average_charges['user'] = 'No such user'
+    end
+
+    render json: @average_charges
+  end
+
+
+
 
   def update
     @bill.update(bill_params)

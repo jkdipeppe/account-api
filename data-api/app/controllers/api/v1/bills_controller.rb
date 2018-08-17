@@ -1,5 +1,4 @@
 class Api::V1::BillsController < ApplicationController
-
   before_action :restrict_access
 
 
@@ -174,7 +173,10 @@ class Api::V1::BillsController < ApplicationController
   end
 
 
-
+  def create
+    @bill = Bill.createa(bill_params)
+    render json: @bill
+  end
 
   def update
     @bill.update(bill_params)

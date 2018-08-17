@@ -7,6 +7,11 @@ class Api::V1::AccountsController < ApplicationController
     render json: accounts
   end
 
+  def create
+    @account = Account.create(account_params)
+    render json: @account
+  end
+
   def find_accounts_by_email
     if User.find_by(email: params[:email]).accounts
       @user_accounts =  User.find_by(email: params[:email]).accounts

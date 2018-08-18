@@ -4,6 +4,15 @@ Things to note:
 
 * bundle install
 
+* `rake db:create` to make the database
+
+* `rake db:migrate` - create database tables
+
+* `rake db:seed` - seeds the database with test data
+
+* `rails s` - starts the rails server
+
+
 * either generate a new API token in a rails console or look up the ApiKey that is created from the seed data
 
 * Must provide a valid API token in header to have access to API
